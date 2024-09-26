@@ -9,9 +9,9 @@ class Escena1 extends Phaser.Scene{
     }
 
     preload(){ //Carga de recursos
-        this.load.image('cielo', '/public/resource/img/nombreImagen.png');
-        this.load.image('nave', '../public/resource/img/nombreImagen.png');
-        this.load.image('meteoro', '../public/resource/img/nombreImagen.png');
+        this.load.image('cielo', '/public/resources/img/cielo.png');
+        this.load.image('nave', '/public/resources/img/naveespacial.png');
+        this.load.image('meteoro', '/public/resources/img/meteoro.png');
     }
 
     create(){
