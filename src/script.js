@@ -5,8 +5,8 @@ import Escena3 from "./scenes/Escena3.js"
 
 const config= {
     type:Phaser.AUTO,
-    width:800,
-    height:600,
+    width:1326,
+    height:595,
     physics:{
         default:'arcade',
         arcade:{
