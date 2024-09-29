@@ -70,8 +70,29 @@ class Escena1 extends Phaser.Scene {
 
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null, this);
 
+        // Muestra un mensaje
+        this.mensaje = this.add.text(400, 150, 'Nivel 1', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+
+        // Eliminar el mensaje después de 2 segundos
+        this.time.delayedCall(2000, () => {
+            this.mensaje.destroy(); // Elimina el mensaje
+        });
+
         this.puntaje = 0; //resetea el puntaje a 0 cuando se inicia la escena
+
+
+    }
+    generarMeteoros(){
+        const x= Phaser.Math.Between(0,800); //posicion aleatoria en el eje x
+
+        const meteoro= this.grupoMeteoros.create(x,0,'meteoro'); //Crear un meteorito
+
+        meteoro.play('meteoro_cayendo'); // animacion del meteoro
+
+        meteoro.setVelocityY(200); //Velocidad vertical hacia abajo
+
         this.textoPuntaje = this.add.text(18, 18, 'Puntaje: 0', { fontSize: '32px', fill: '#fff' });
+
     }
     /** Actualizacion del juego */
     update() {
@@ -81,7 +102,11 @@ class Escena1 extends Phaser.Scene {
 
         if (this.cursors.left.isDown) {
             this.jugador.setVelocityX(-300); // Mover a la izquierda
+
+
+
             this.jugador.anims.play('izquierda', true);
+
         } else if (this.cursors.right.isDown) {
             this.jugador.setVelocityX(300); // Mover a la derecha
             this.jugador.anims.play('derecha', true);
@@ -95,8 +120,19 @@ class Escena1 extends Phaser.Scene {
             this.jugador.setVelocityY(300); // Mover hacia abajo
         }
 
+
+
         this.puntaje += 1; // Incrementar el puntaje a medida que la nave avanza
+
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
+
+        if (this.puntaje >= 500) { //puntaje para que pase a la siguiente escena
+            const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
+            this.scene.start('Escena2', {puntaje: this.puntaje, posicionNave}); // Cambiar a la siguiente escena y pasa el puntaje
+        }
+
+        
+
     }
     /** Metodo para la generacion de meteoritos */
     generarMeteoros() {
@@ -113,7 +149,7 @@ class Escena1 extends Phaser.Scene {
         this.physics.pause(); //Pausar el juego
         jugador.setTint(0xff0000);//Cambiar color para indicar impacto
         console.log('GameOver');
-        this.scene.start('GameOver', { puntaje: this.puntaje }); //Escena GameOver y mostrar puntaje
+        this.scene.start('GameOverthis.puntaje }'); //Escena GameOver y mostrar puntaje
     }
 
 } export default Escena1;
