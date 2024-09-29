@@ -1,7 +1,8 @@
 class Escena1 extends Phaser.Scene{
     constructor(){
         super("Escena1"); 
-        this.jugador=null; 
+        this.background=null;
+        this.jugador=null;
         this.grupoMeteoros= null;
         this.cursors= null;
         this.puntaje=0;
@@ -9,7 +10,8 @@ class Escena1 extends Phaser.Scene{
     }
 
     preload(){ //Carga de recursos
-        this.load.image('cielo', '/public/resources/img/cielo.png');
+        //this.load.image('cielo', '/public/resources/img/cielo.png');
+        this.load.image('background', '/public/resources/img/background.png');
         //this.load.image('nave', '/public/resources/img/naveespacial.png');
         //this.load.image('meteoro', '/public/resources/img/meteoro.png');
         this.load.spritesheet('meteoro', '/public/resources/img/meteoro2.png',{frameWidth:40,frameHeight:55.5});
@@ -17,7 +19,8 @@ class Escena1 extends Phaser.Scene{
     }
 
     create(){
-        this.add.image(400,300,'cielo'); 
+        //this.add.image(400,300,'cielo'); 
+        this.background = this.add.tileSprite(400,300,800,600,'background');
         this.jugador=this.physics.add.sprite(400,550,'supernave'); //Creando la nave
 
         //AnimAcion Spritesheet
@@ -67,6 +70,7 @@ class Escena1 extends Phaser.Scene{
     }
 
     update(){
+        this.background.tilePositionY -= 2; // Ajusta la velocidad de desplazamiento del fondo
         this.jugador.setVelocityX(0); // Detener la nave
         if (this.cursors.left.isDown) {
             this.jugador.setVelocityX(-300); // Mover a la izquierda
