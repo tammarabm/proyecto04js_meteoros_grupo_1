@@ -1,12 +1,19 @@
-class Escena1 extends Phaser.Scene{
+class Escena3 extends Phaser.Scene{
     constructor(){
-        super("Escena1"); 
+        super("Escena3"); 
         this.jugador=null; 
         this.grupoMeteoros= null;
+        this.grupoMeteoros2= null;
         this.cursors= null;
         this.puntaje=0;
         this.textoPuntaje=0;
     }
+    
+    /*preload(){ //Carga de recursos
+        this.load.image('cielo', '/public/resources/img/cielo.png');
+        this.load.image('nave', '/public/resources/img/naveespacial.png');
+        this.load.image('meteoro', '/public/resources/img/meteoro.png');
+    }*/
 
     preload(){ //Carga de recursos
         this.load.image('cielo', '/public/resources/img/cielo.png');
@@ -16,9 +23,15 @@ class Escena1 extends Phaser.Scene{
         this.load.spritesheet('supernave','/public/resources/img/supernave.png',{frameWidth:90,frameHeight:215});//width192 & height144
     }
 
+    init(data){
+        this.puntaje=data.puntaje; //Recibe el puntaje
+        
+        this.posicionNave = data.posicionNave; // Obtener posición de la nave
+    }
+
     create(){
         this.add.image(400,300,'cielo'); 
-        this.jugador=this.physics.add.sprite(400,550,'supernave'); //Creando la nave
+        this.jugador = this.physics.add.sprite(this.posicionNave.x, this.posicionNave.y, 'supernave'); // Usar posición pasada
 
         //AnimAcion Spritesheet
         this.anims.create({
@@ -49,33 +62,59 @@ class Escena1 extends Phaser.Scene{
 
         this.jugador.setCollideWorldBounds(true); //Evita que salga de la pantalla
 
-        this.grupoMeteoros=this.physics.add.group(); //Creando el grupo de meteoritos
-        this.time.addEvent({delay: 1000, callback:this.generarMeteoros, callbackScope:this, loop:true});
+        this.grupoMeteoros=this.physics.add.group(); //Creando el grupo de meteoros
+        this.time.addEvent({delay: 1400, callback:this.generarMeteoros, callbackScope:this, loop:true});
+
+        this.grupoMeteoros2=this.physics.add.group(); //Creando el grupo de meteoros2
+        this.time.addEvent({delay: 1400, callback:this.generarMeteoros2, callbackScope:this, loop:true});
 
         this.cursors=this.input.keyboard.createCursorKeys();//Configurando los controles
-
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null,this);
 
+        this.physics.add.collider(this.jugador, this.grupoMeteoros2, this.gameOver, null,this);//meteoros2
+
         // Muestra un mensaje
-        this.mensaje = this.add.text(400, 150, 'Nivel 1', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+        this.mensaje = this.add.text(400, 150, 'Nivel 3', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
 
         // Eliminar el mensaje después de 2 segundos
         this.time.delayedCall(2000, () => {
             this.mensaje.destroy(); // Elimina el mensaje
         });
 
-        this.puntaje = 0; //resetea el puntaje a 0 cuando se inicia la escena
         this.textoPuntaje=this.add.text(18,18,'Puntaje: 0', {fontSize:'32px', fill: '#fff'});
     }
+
     generarMeteoros(){
-        const x= Phaser.Math.Between(0,800); //posicion aleatoria en el eje x
+        
+   const x = Phaser.Math.Between(100, 700); 
+   const meteoro = this.grupoMeteoros.create(x, 0, 'meteoro'); // Crear el meteoro en la parte superior
 
-        const meteoro= this.grupoMeteoros.create(x,0,'meteoro'); //Crear un meteorito
+   meteoro.play('meteoro_cayendo'); // animacion del meteoros
 
-        meteoro.play('meteoro_cayendo'); // animacion del meteoro
+   // Determinar si el meteoro va a la izquierda o a la derecha
+   if (Phaser.Math.Between(0, 1) === 0) {
+       meteoro.setVelocity(-200, 200); // Diagonal hacia abajo a la izquierda
+   } else {
+       meteoro.setVelocity(200, 200); // Diagonal hacia abajo a la derecha
+   }
+   }
+ 
+   generarMeteoros2() {
+    
+    const r = Phaser.Math.Between(100, 700);
+    const meteoro2 = this.grupoMeteoros2.create(r, 600, 'meteoro'); // Crear el meteoro en la parte inferior
 
-        meteoro.setVelocityY(200); //Velocidad vertical hacia abajo
-    }
+    meteoro2.play('meteoro_cayendo'); // animacion del meteoro
+
+    // Determinar si el meteoro va a la izquierda o a la derecha
+   if (Phaser.Math.Between(0, 1) === 0) {
+    meteoro2.setVelocity(200, -200); // Diagonal hacia arriba a la derecha
+} else {
+    meteoro2.setVelocity(-200, -200); // Diagonal hacia arriba a la izquierda
+}
+
+
+}
 
     update(){
         this.jugador.setVelocityX(0); // Detiene la nave cuando va de manera Horizontal
@@ -100,10 +139,7 @@ class Escena1 extends Phaser.Scene{
         this.puntaje+=1; 
         this.textoPuntaje.setText('Puntaje: '+this.puntaje);
 
-        if (this.puntaje >= 500) { //puntaje para que pase a la siguiente escena
-            const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
-            this.scene.start('Escena2', {puntaje: this.puntaje, posicionNave}); // Cambiar a la siguiente escena y pasa el puntaje
-        }
+
     }
 
     gameOver(jugador){
@@ -114,4 +150,4 @@ class Escena1 extends Phaser.Scene{
 
     }
 
-}export default Escena1;
+}export default Escena3;
