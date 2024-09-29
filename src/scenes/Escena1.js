@@ -75,13 +75,11 @@ class Escena1 extends Phaser.Scene {
         });
 
         this.cursors = this.input.keyboard.createCursorKeys();//Configurando los controles
-
+        // Colisiones
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null, this);
 
         this.puntaje = 0; //resetea el puntaje a 0 cuando se inicia la escena
         this.textoPuntaje = this.add.text(18, 18, 'Puntaje: 0', { fontSize: '32px', fill: '#fff' });
-
-
     }
     /** Actualizacion del juego */
     update() {
@@ -91,11 +89,7 @@ class Escena1 extends Phaser.Scene {
 
         if (this.cursors.left.isDown) {
             this.jugador.setVelocityX(-300); // Mover a la izquierda
-
-
-
             this.jugador.anims.play('izquierda', true);
-
         } else if (this.cursors.right.isDown) {
             this.jugador.setVelocityX(300); // Mover a la derecha
             this.jugador.anims.play('derecha', true);
@@ -109,19 +103,13 @@ class Escena1 extends Phaser.Scene {
             this.jugador.setVelocityY(300); // Mover hacia abajo
         }
 
-
-
         this.puntaje += 1; // Incrementar el puntaje a medida que la nave avanza
-
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
 
         if (this.puntaje >= 1000) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
             this.scene.start('Escena2', { puntaje: this.puntaje, posicionNave }); // Cambiar a la siguiente escena y pasa el puntaje
         }
-
-
-
     }
     /** Metodo para la generacion de meteoritos */
     generarMeteoros() {
