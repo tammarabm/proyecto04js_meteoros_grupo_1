@@ -56,11 +56,14 @@ class Escena1 extends Phaser.Scene{
         this.time.addEvent({delay: 1000, callback:this.generarMeteoros, callbackScope:this, loop:true});
 
         this.cursors=this.input.keyboard.createCursorKeys();//Configurando los controles
-        this.physics.add.collider(this.jugador, this.grupoMeteoros, null,this); //this.gameOver
+
+        this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null,this);
+
+        this.puntaje = 0; //resetea el puntaje a 0 cuando se inicia la escena
         this.textoPuntaje=this.add.text(18,18,'Puntaje: 0', {fontSize:'32px', fill: '#fff'});
     }
     generarMeteoros(){
-        const x= Phaser.Math.Between(0,800); //posicion aleatoria en el eje x
+        const x= Phaser.Math.Between(-500,700); //posicion aleatoria en el eje x
 
         const meteoro= this.grupoMeteoros.create(x,0,'meteoro'); //Crear un meteorito
 
@@ -71,7 +74,9 @@ class Escena1 extends Phaser.Scene{
 
     update(){
         this.background.tilePositionY -= 2; // Ajusta la velocidad de desplazamiento del fondo
-        this.jugador.setVelocityX(0); // Detener la nave
+        this.jugador.setVelocityX(0); // Detiene la nave cuando va de manera Horizontal
+        this.jugador.setVelocityY(0); // Detiene la nave cuando va de manera Vertical
+        
         if (this.cursors.left.isDown) {
             this.jugador.setVelocityX(-300); // Mover a la izquierda
             this.jugador.anims.play('izquierda',true);
@@ -80,6 +85,12 @@ class Escena1 extends Phaser.Scene{
             this.jugador.anims.play('derecha',true);
         }else{
             this.jugador.anims.play('idle',true);
+        }
+
+        if (this.cursors.up.isDown) {
+            this.jugador.setVelocityY(-300); // Mover hacia arriba
+        } else if (this.cursors.down.isDown) {
+            this.jugador.setVelocityY(300); // Mover hacia abajo
         }
 
         this.puntaje+=1; 
