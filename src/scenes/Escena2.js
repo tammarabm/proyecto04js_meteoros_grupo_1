@@ -8,16 +8,8 @@ class Escena2 extends Phaser.Scene{
         this.puntaje=0;
         this.textoPuntaje=0;
     }
-    
-    /*preload(){ //Carga de recursos
-        this.load.image('cielo', '/public/resources/img/cielo.png');
-        this.load.image('nave', '/public/resources/img/naveespacial.png');
-        this.load.image('meteoro', '/public/resources/img/meteoro.png');
-    }*/
     preload(){ //Carga de recursos
-        this.load.image('cielo', '/public/resources/img/cielo.png');
-        //this.load.image('nave', '/public/resources/img/naveespacial.png');
-        //this.load.image('meteoro', '/public/resources/img/meteoro.png');
+        this.load.image('background', '/public/resources/img/background2.jpg');// añado el fondo
         this.load.spritesheet('meteoro', '/public/resources/img/meteoro2.png',{frameWidth:40,frameHeight:55.5});
         this.load.spritesheet('supernave','/public/resources/img/supernave.png',{frameWidth:90,frameHeight:215});//width192 & height144
     }
@@ -29,7 +21,7 @@ class Escena2 extends Phaser.Scene{
     }
 
     create(){
-        this.add.image(400,300,'cielo'); 
+        this.background = this.add.tileSprite(663, 298, 1326, 596, 'background'); // creo el fondo con tilesprite para que funcion el desplazamiento
         this.jugador = this.physics.add.sprite(this.posicionNave.x, this.posicionNave.y, 'supernave'); // Usa la posición anterior
 
        //AnimAcion Spritesheet
@@ -61,17 +53,17 @@ class Escena2 extends Phaser.Scene{
         this.jugador.setCollideWorldBounds(true); //Evita que salga de la pantalla
         //grupo de meteoros
         this.grupoMeteoros=this.physics.add.group(); 
-        this.time.addEvent({delay: 1400, callback:this.generarMeteoros, callbackScope:this, loop:true});
+        this.time.addEvent({delay: 500, callback:this.generarMeteoros, callbackScope:this, loop:true});
         //grupo de meteoros2
         this.grupoMeteoros2=this.physics.add.group(); 
-        this.time.addEvent({delay: 1000, callback:this.generarMeteoros2, callbackScope:this, loop:true});
+        this.time.addEvent({delay: 500, callback:this.generarMeteoros2, callbackScope:this, loop:true});
 
         this.cursors=this.input.keyboard.createCursorKeys();//Configurando los controles
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null,this);
         this.physics.add.collider(this.jugador, this.grupoMeteoros2, this.gameOver, null,this); //meteoros2
 
         // Mostrar mensaje
-        this.mensaje = this.add.text(400, 150, 'Nivel 2', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
+        this.mensaje = this.add.text(663, 150, 'Nivel 2', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
 
         // Eliminar el mensaje después de 2 segundos
         this.time.delayedCall(2000, () => {
@@ -83,7 +75,7 @@ class Escena2 extends Phaser.Scene{
 
     generarMeteoros(){
          
-    const x = Phaser.Math.Between(100, 700); //posicion aleatoria en el eje x
+    const x = Phaser.Math.Between(100, 1326); //posicion aleatoria en el eje x
     const meteoro = this.grupoMeteoros.create(x, 0, 'meteoro'); // Crear el meteoro en la parte superior
 
     meteoro.play('meteoro_cayendo'); // animacion del meteoro
@@ -97,7 +89,7 @@ class Escena2 extends Phaser.Scene{
     }
 
     generarMeteoros2(){
-        const r= Phaser.Math.Between(0,800); //posicion aleatoria en el eje x
+        const r= Phaser.Math.Between(0,1326); //posicion aleatoria en el eje x
 
         const meteoro= this.grupoMeteoros.create(r,0,'meteoro'); //Crear un meteorito
 
@@ -107,6 +99,7 @@ class Escena2 extends Phaser.Scene{
    }
 
     update(){
+        this.background.tilePositionY -= 2; // Ajusta la velocidad de desplazamiento del fondo
         this.jugador.setVelocityX(0); // Detiene la nave cuando va de manera Horizontal
         this.jugador.setVelocityY(0); // Detiene la nave cuando va de manera Vertical
         
@@ -129,7 +122,7 @@ class Escena2 extends Phaser.Scene{
         this.puntaje+=1; 
         this.textoPuntaje.setText('Puntaje: '+this.puntaje);
 
-        if (this.puntaje >= 1000) { //puntaje para que pase a la siguiente escena
+        if (this.puntaje >= 1500) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
             this.scene.start('Escena3', {puntaje: this.puntaje, posicionNave}); // Cambiar a la siguiente escena y pasa el puntaje
         }
