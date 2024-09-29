@@ -11,7 +11,7 @@ class Escena1 extends Phaser.Scene{
 
     preload(){ //Carga de recursos
         //this.load.image('cielo', '/public/resources/img/cielo.png');
-        this.load.image('background', '/public/resources/img/background.png');
+        this.load.image('background', '/public/resources/img/background.png');// añado el fondo
         //this.load.image('nave', '/public/resources/img/naveespacial.png');
         //this.load.image('meteoro', '/public/resources/img/meteoro.png');
         this.load.spritesheet('meteoro', '/public/resources/img/meteoro2.png',{frameWidth:40,frameHeight:55.5});
@@ -20,7 +20,7 @@ class Escena1 extends Phaser.Scene{
 
     create(){
         //this.add.image(400,300,'cielo'); 
-        this.background = this.add.tileSprite(400,300,800,600,'background');
+        this.background = this.add.tileSprite(400,300,800,600,'background'); // creo el fondo con tilesprite para que funcion el desplazamiento
         this.jugador=this.physics.add.sprite(400,550,'supernave'); //Creando la nave
 
         //AnimAcion Spritesheet
