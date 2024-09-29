@@ -24,6 +24,8 @@ class Escena1 extends Phaser.Scene{
 
         this.cursors=this.input.keyboard.createCursorKeys();//Configurando los controles
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null,this);
+
+        this.puntaje = 0; //resetea el puntaje a 0 cuando se inicia la escena
         this.textoPuntaje=this.add.text(18,18,'Puntaje: 0', {fontSize:'32px', fill: '#fff'});
     }
     generarMeteoros(){
