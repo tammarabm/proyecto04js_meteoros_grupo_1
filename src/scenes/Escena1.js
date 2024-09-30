@@ -80,6 +80,19 @@ class Escena1 extends Phaser.Scene {
 
         this.puntaje = 0; //resetea el puntaje a 0 cuando se inicia la escena
         this.textoPuntaje = this.add.text(18, 18, 'Puntaje: 0', { fontSize: '32px', fill: '#fff' });
+
+    }
+    generarMeteoros() {
+        const x = Phaser.Math.Between(0, 800); //posicion aleatoria en el eje x
+
+        const meteoro = this.grupoMeteoros.create(x, 0, 'meteoro'); //Crear un meteorito
+
+        meteoro.play('meteoro_cayendo'); // animacion del meteoro
+
+        meteoro.setVelocityY(200); //Velocidad vertical hacia abajo
+
+        this.textoPuntaje = this.add.text(18, 18, 'Puntaje: 0', { fontSize: '32px', fill: '#fff' });
+
     }
     /** Actualizacion del juego */
     update() {
@@ -87,19 +100,21 @@ class Escena1 extends Phaser.Scene {
         this.jugador.setVelocityX(0); // Detiene la nave cuando va de manera Horizontal
         this.jugador.setVelocityY(0); // Detiene la nave cuando va de manera Vertical
 
-        if (this.cursors.left.isDown) {
+        if (this.cursors.left.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('a'))) {
             this.jugador.setVelocityX(-300); // Mover a la izquierda
             this.jugador.anims.play('izquierda', true);
-        } else if (this.cursors.right.isDown) {
+
+        } else if (this.cursors.right.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('d'))) {
+          
             this.jugador.setVelocityX(300); // Mover a la derecha
             this.jugador.anims.play('derecha', true);
         } else {
             this.jugador.anims.play('idle', true);
         }
 
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('w'))) {
             this.jugador.setVelocityY(-300); // Mover hacia arriba
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('s'))) {
             this.jugador.setVelocityY(300); // Mover hacia abajo
         }
 

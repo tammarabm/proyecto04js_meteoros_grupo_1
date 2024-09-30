@@ -16,6 +16,7 @@ class Escena2 extends Phaser.Scene {
 
     init(data) {
         this.puntaje = data.puntaje; //Recibe el puntaje
+      
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
     }
 
@@ -58,6 +59,7 @@ class Escena2 extends Phaser.Scene {
         this.time.addEvent({ delay: 500, callback: this.generarMeteoros2, callbackScope: this, loop: true });
 
         this.cursors = this.input.keyboard.createCursorKeys();//Configurando los controles
+
         //Colisones
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null, this);
         this.physics.add.collider(this.jugador, this.grupoMeteoros2, this.gameOver, null, this); //meteoros2
@@ -73,9 +75,12 @@ class Escena2 extends Phaser.Scene {
     }
 
     generarMeteoros() {
+
         const x = Phaser.Math.Between(100, 1326); //posicion aleatoria en el eje x
         const meteoro = this.grupoMeteoros.create(x, 0, 'meteoro'); // Crear el meteoro en la parte superior
+
         meteoro.play('meteoro_cayendo'); // animacion del meteoro
+
         // Determina si el meteoro va a la izquierda o a la derecha
         if (Phaser.Math.Between(0, 1) === 0) {
             meteoro.setVelocity(-200, 200); // Diagonal hacia abajo a la izquierda
@@ -87,6 +92,7 @@ class Escena2 extends Phaser.Scene {
     generarMeteoros2() {
         const r = Phaser.Math.Between(0, 1326); //posicion aleatoria en el eje x
         const meteoro = this.grupoMeteoros.create(r, 0, 'meteoro'); //Crear un meteorito
+
         meteoro.play('meteoro_cayendo'); // animacion del meteoro
         meteoro.setVelocityY(200); //Velocidad vertical hacia abajo
     }
@@ -96,19 +102,20 @@ class Escena2 extends Phaser.Scene {
         this.jugador.setVelocityX(0); // Detiene la nave cuando va de manera Horizontal
         this.jugador.setVelocityY(0); // Detiene la nave cuando va de manera Vertical
 
-        if (this.cursors.left.isDown) {
+
+        if (this.cursors.left.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('a'))) {
             this.jugador.setVelocityX(-300); // Mover a la izquierda
             this.jugador.anims.play('izquierda', true)
-        } else if (this.cursors.right.isDown) {
+        } else if (this.cursors.right.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('d'))) {
             this.jugador.setVelocityX(300); // Mover a la derecha
             this.jugador.anims.play('derecha', true);
         } else {
             this.jugador.anims.play('idle', true);
         }
 
-        if (this.cursors.up.isDown) {
+        if (this.cursors.up.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('w'))) {
             this.jugador.setVelocityY(-300); // Mover hacia arriba
-        } else if (this.cursors.down.isDown) {
+        } else if (this.cursors.down.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('s'))) {
             this.jugador.setVelocityY(300); // Mover hacia abajo
         }
 
@@ -126,6 +133,7 @@ class Escena2 extends Phaser.Scene {
         jugador.setTint(0xff0000);//Cambiar color para indicar impacto
         console.log('GameOver');
         this.scene.start('GameOver', { puntaje: this.puntaje }); //Escena GameOver y mostrar puntaje
+
     }
 
 } export default Escena2;
