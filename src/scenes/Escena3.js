@@ -16,7 +16,6 @@ class Escena3 extends Phaser.Scene {
 
     init(data) {
         this.puntaje = data.puntaje; //Recibe el puntaje
-
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
     }
 
@@ -60,13 +59,14 @@ class Escena3 extends Phaser.Scene {
         this.time.addEvent({ delay: 500, callback: this.generarMeteoros2, callbackScope: this, loop: true });
 
         this.cursors = this.input.keyboard.createCursorKeys();//Configurando los controles
+
+        // Colisiones
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null, this);
 
         this.physics.add.collider(this.jugador, this.grupoMeteoros2, this.gameOver, null, this);//meteoros2
 
         // Muestra un mensaje
         this.mensaje = this.add.text(663, 150, 'Nivel 3', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
-
         // Eliminar el mensaje después de 2 segundos
         this.time.delayedCall(2000, () => {
             this.mensaje.destroy(); // Elimina el mensaje
@@ -76,12 +76,11 @@ class Escena3 extends Phaser.Scene {
     }
 
     generarMeteoros() {
-
         const x = Phaser.Math.Between(100, 1326);
         const meteoro = this.grupoMeteoros.create(x, 0, 'meteoro'); // Crear el meteoro en la parte superior
 
         meteoro.play('meteoro_cayendo'); // animacion del meteoros
-
+      
         // Determinar si el meteoro va a la izquierda o a la derecha
         if (Phaser.Math.Between(0, 1) === 0) {
             meteoro.setVelocity(-200, 200); // Diagonal hacia abajo a la izquierda
@@ -104,6 +103,7 @@ class Escena3 extends Phaser.Scene {
             meteoro2.setVelocity(-200, -200); // Diagonal hacia arriba a la izquierda
         }
     }
+
 
     update() {
         this.background.tilePositionY -= 2; // Ajusta la velocidad de desplazamiento del fondo
@@ -128,7 +128,6 @@ class Escena3 extends Phaser.Scene {
 
         this.puntaje += 1;
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
-
 
     }
 

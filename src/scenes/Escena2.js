@@ -16,7 +16,7 @@ class Escena2 extends Phaser.Scene {
 
     init(data) {
         this.puntaje = data.puntaje; //Recibe el puntaje
-
+      
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
     }
 
@@ -59,12 +59,13 @@ class Escena2 extends Phaser.Scene {
         this.time.addEvent({ delay: 500, callback: this.generarMeteoros2, callbackScope: this, loop: true });
 
         this.cursors = this.input.keyboard.createCursorKeys();//Configurando los controles
+
+        //Colisones
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null, this);
         this.physics.add.collider(this.jugador, this.grupoMeteoros2, this.gameOver, null, this); //meteoros2
 
         // Mostrar mensaje
         this.mensaje = this.add.text(663, 150, 'Nivel 2', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
-
         // Eliminar el mensaje después de 2 segundos
         this.time.delayedCall(2000, () => {
             this.mensaje.destroy(); // Elimina el mensaje
@@ -90,11 +91,9 @@ class Escena2 extends Phaser.Scene {
 
     generarMeteoros2() {
         const r = Phaser.Math.Between(0, 1326); //posicion aleatoria en el eje x
-
         const meteoro = this.grupoMeteoros.create(r, 0, 'meteoro'); //Crear un meteorito
 
         meteoro.play('meteoro_cayendo'); // animacion del meteoro
-
         meteoro.setVelocityY(200); //Velocidad vertical hacia abajo
     }
 
@@ -102,6 +101,7 @@ class Escena2 extends Phaser.Scene {
         this.background.tilePositionY -= 2; // Ajusta la velocidad de desplazamiento del fondo
         this.jugador.setVelocityX(0); // Detiene la nave cuando va de manera Horizontal
         this.jugador.setVelocityY(0); // Detiene la nave cuando va de manera Vertical
+
 
         if (this.cursors.left.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('a'))) {
             this.jugador.setVelocityX(-300); // Mover a la izquierda
@@ -126,7 +126,6 @@ class Escena2 extends Phaser.Scene {
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
             this.scene.start('Escena3', { puntaje: this.puntaje, posicionNave }); // Cambiar a la siguiente escena y pasa el puntaje
         }
-
     }
 
     gameOver(jugador) {

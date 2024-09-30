@@ -75,12 +75,11 @@ class Escena1 extends Phaser.Scene {
         });
 
         this.cursors = this.input.keyboard.createCursorKeys();//Configurando los controles
-
+        // Colisiones
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null, this);
 
         this.puntaje = 0; //resetea el puntaje a 0 cuando se inicia la escena
         this.textoPuntaje = this.add.text(18, 18, 'Puntaje: 0', { fontSize: '32px', fill: '#fff' });
-
 
     }
     generarMeteoros() {
@@ -106,6 +105,7 @@ class Escena1 extends Phaser.Scene {
             this.jugador.anims.play('izquierda', true);
 
         } else if (this.cursors.right.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('d'))) {
+          
             this.jugador.setVelocityX(300); // Mover a la derecha
             this.jugador.anims.play('derecha', true);
         } else {
@@ -119,7 +119,6 @@ class Escena1 extends Phaser.Scene {
         }
 
         this.puntaje += 1; // Incrementar el puntaje a medida que la nave avanza
-
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
 
         if (this.puntaje >= 1000) { //puntaje para que pase a la siguiente escena
@@ -130,11 +129,8 @@ class Escena1 extends Phaser.Scene {
     /** Metodo para la generacion de meteoritos */
     generarMeteoros() {
         const x = Phaser.Math.Between(0, 1326); //posicion aleatoria en el eje x
-
         const meteoro = this.grupoMeteoros.create(x, 0, 'meteoro'); //Crear un meteorito
-
         meteoro.play('meteoro_cayendo'); // animacion del meteoro
-
         meteoro.setVelocityY(200); //Velocidad vertical hacia abajo
     }
     /** Metodo para mostrar la escena game over */
