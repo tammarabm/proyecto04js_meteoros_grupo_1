@@ -12,17 +12,20 @@ class Escena2 extends Phaser.Scene {
         this.load.image('background', '/public/resources/img/background2.jpg');// añado el fondo
         this.load.spritesheet('meteoro', '/public/resources/img/meteoro2.png', { frameWidth: 40, frameHeight: 55.5 });
         this.load.spritesheet('supernave', '/public/resources/img/supernave.png', { frameWidth: 90, frameHeight: 215 });//width192 & height144
+        this.load.audio('sonido','/public/resources/sounds/sonido.mp3');
+        
     }
 
     init(data) {
         this.puntaje = data.puntaje; //Recibe el puntaje
-      
+
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
     }
 
     create() {
         this.background = this.add.tileSprite(663, 298, 1326, 596, 'background'); // creo el fondo con tilesprite para que funcion el desplazamiento
         this.jugador = this.physics.add.sprite(this.posicionNave.x, this.posicionNave.y, 'supernave'); // Usa la posición anterior
+        
 
         //AnimAcion Spritesheet
         this.anims.create({
@@ -64,6 +67,7 @@ class Escena2 extends Phaser.Scene {
         this.physics.add.collider(this.jugador, this.grupoMeteoros, this.gameOver, null, this);
         this.physics.add.collider(this.jugador, this.grupoMeteoros2, this.gameOver, null, this); //meteoros2
 
+        
         // Mostrar mensaje
         this.mensaje = this.add.text(663, 150, 'Nivel 2', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
         // Eliminar el mensaje después de 2 segundos
@@ -124,6 +128,11 @@ class Escena2 extends Phaser.Scene {
 
         if (this.puntaje >= 1500) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
+            let sonido = this.sound.add('sonido');  //añadir la música
+             // Reproducir la música en loop
+            sonido.play({
+            volume: 0.5 
+            });
             this.scene.start('Escena3', { puntaje: this.puntaje, posicionNave }); // Cambiar a la siguiente escena y pasa el puntaje
         }
     }

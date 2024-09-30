@@ -17,12 +17,20 @@ class Escena1 extends Phaser.Scene {
         //this.load.image('meteoro', '/public/resources/img/meteoro.png');
         this.load.spritesheet('meteoro', '/public/resources/img/meteoro2.png', { frameWidth: 40, frameHeight: 55.5 });
         this.load.spritesheet('supernave', '/public/resources/img/supernave2.png', { frameWidth: 45, frameHeight: 107.5 });//width192 & height144
+        this.load.audio('musica', '/public/resources/sounds/music.mp3');
+        this.load.audio('sonido','/public/resources/sounds/sonido.mp3');
     }
     /** Creacion de objetos en el juego */
     create() {
         //this.add.image(400,300,'cielo'); 
         this.background = this.add.tileSprite(663, 298, 1326, 596, 'background'); // creo el fondo con tilesprite para que funcion el desplazamiento
         this.jugador = this.physics.add.sprite(663, 500, 'supernave'); //Creando la nave
+        let music = this.sound.add('musica');  //añadir la música
+        // Reproducir la música en loop
+        music.play({
+        loop: true,
+        volume: 0.5 
+    });
 
         //AnimAcion Spritesheet
         this.anims.create({
@@ -123,6 +131,11 @@ class Escena1 extends Phaser.Scene {
 
         if (this.puntaje >= 1000) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
+            let sonido = this.sound.add('sonido');  //añadir la música
+             // Reproducir la música en loop
+            sonido.play({
+            volume: 0.5 
+            });
             this.scene.start('Escena2', { puntaje: this.puntaje, posicionNave }); // Cambiar a la siguiente escena y pasa el puntaje
         }
     }
