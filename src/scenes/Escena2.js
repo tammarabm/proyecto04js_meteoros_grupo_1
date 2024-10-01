@@ -139,8 +139,6 @@ class Escena2 extends Phaser.Scene {
         }
         this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo});
          //Escena GameOver y mostrar puntaje
-        this.scene.start('GameOver', { puntaje: this.puntaje });
-         //Escena GameOver y mostrar puntaje
 
     }
 
