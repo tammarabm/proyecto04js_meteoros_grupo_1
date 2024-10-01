@@ -6,6 +6,7 @@ class Escena2 extends Phaser.Scene {
         this.grupoMeteoros2 = null;
         this.cursors = null;
         this.puntaje = 0;
+        this.puntajeMaximo=0;
         this.textoPuntaje = 0;
     }
     preload() { //Carga de recursos
@@ -16,7 +17,7 @@ class Escena2 extends Phaser.Scene {
 
     init(data) {
         this.puntaje = data.puntaje; //Recibe el puntaje
-      
+        this.puntajeMaximo= data.puntajeMaximo || 0;
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
     }
 
@@ -124,7 +125,8 @@ class Escena2 extends Phaser.Scene {
 
         if (this.puntaje >= 1500) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
-            this.scene.start('Escena3', { puntaje: this.puntaje, posicionNave }); // Cambiar a la siguiente escena y pasa el puntaje
+            this.scene.start('Escena3', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });
+             // Cambiar a la siguiente escena y pasa el puntaje
         }
     }
 
@@ -132,7 +134,13 @@ class Escena2 extends Phaser.Scene {
         this.physics.pause(); //Pausar el juego
         jugador.setTint(0xff0000);//Cambiar color para indicar impacto
         console.log('GameOver');
-        this.scene.start('GameOver', { puntaje: this.puntaje }); //Escena GameOver y mostrar puntaje
+        if (this.puntaje > this.puntajeMaximo) {
+            this.puntajeMaximo = this.puntaje;
+        }
+        this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo});
+         //Escena GameOver y mostrar puntaje
+        this.scene.start('GameOver', { puntaje: this.puntaje });
+         //Escena GameOver y mostrar puntaje
 
     }
 

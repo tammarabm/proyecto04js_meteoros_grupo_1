@@ -6,6 +6,7 @@ class Escena3 extends Phaser.Scene {
         this.grupoMeteoros2 = null;
         this.cursors = null;
         this.puntaje = 0;
+        this.puntajeMaximo=0;
         this.textoPuntaje = 0;
     }
     preload() { //Carga de recursos
@@ -16,6 +17,7 @@ class Escena3 extends Phaser.Scene {
 
     init(data) {
         this.puntaje = data.puntaje; //Recibe el puntaje
+        this.puntajeMaximo= data.puntajeMaximo || 0; //Recibe el puntaje máximo
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
     }
 
@@ -135,7 +137,13 @@ class Escena3 extends Phaser.Scene {
         this.physics.pause(); //Pausar el juego
         jugador.setTint(0xff0000);//Cambiar color para indicar impacto
         console.log('GameOver');
-        this.scene.start('GameOver', { puntaje: this.puntaje }); //Escena GameOver y mostrar puntaje
+        if (this.puntaje > this.puntajeMaximo) {
+            this.puntajeMaximo = this.puntaje;
+        }
+        this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo}); 
+        //Escena GameOver y mostrar puntaje
+        this.scene.start('GameOver', { puntaje: this.puntaje });
+         //Escena GameOver y mostrar puntaje
 
     }
 
