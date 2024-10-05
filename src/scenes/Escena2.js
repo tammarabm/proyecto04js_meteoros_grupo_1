@@ -19,9 +19,7 @@ class Escena2 extends Phaser.Scene {
 
     init(data) {
         this.puntaje = data.puntaje; //Recibe el puntaje
-
         this.puntajeMaximo= data.puntajeMaximo || 0;
-
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
     }
 
@@ -57,11 +55,10 @@ class Escena2 extends Phaser.Scene {
             repeat: -1
         })
         this.jugador.setCollideWorldBounds(true); //Evita que salga de la pantalla
-        //grupo de meteoros
-        this.grupoMeteoros = this.physics.add.group();
+        
+        this.grupoMeteoros = this.physics.add.group(); //grupo de meteoros
         this.time.addEvent({ delay: 500, callback: this.generarMeteoros, callbackScope: this, loop: true });
-        //grupo de meteoros2
-        this.grupoMeteoros2 = this.physics.add.group();
+        this.grupoMeteoros2 = this.physics.add.group();//grupo de meteoros2
         this.time.addEvent({ delay: 500, callback: this.generarMeteoros2, callbackScope: this, loop: true });
 
         this.cursors = this.input.keyboard.createCursorKeys();//Configurando los controles
