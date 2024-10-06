@@ -143,7 +143,7 @@ class Escena1 extends Phaser.Scene {
             sonido.play({
             volume: 0.5 
             });
-            this.scene.start('Escena2', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });// Cambiar a la siguiente escena y pasa el puntaje
+            this.scene.start('Escena4', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });// Cambiar a la siguiente escena y pasa el puntaje
         }
     }
     /** Metodo para la generacion de meteoritos */
