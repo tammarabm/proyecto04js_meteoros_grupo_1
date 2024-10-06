@@ -12,10 +12,7 @@ class Escena1 extends Phaser.Scene {
     }
     /** Carga de Recursos */
     preload() {
-        //this.load.image('cielo', '/public/resources/img/cielo.png');
         this.load.image('background', '/public/resources/img/background2.jpg');// añado el fondo
-        //this.load.image('nave', '/public/resources/img/naveespacial.png');
-        //this.load.image('meteoro', '/public/resources/img/meteoro.png');
         this.load.spritesheet('meteoro', '/public/resources/img/meteoro2.png', { frameWidth: 40, frameHeight: 55.5 });
         this.load.spritesheet('supernave', '/public/resources/img/supernave2.png', { frameWidth: 45, frameHeight: 107.5 });//width192 & height144
         this.load.audio('musica', '/public/resources/sounds/music.mp3');
@@ -135,7 +132,7 @@ class Escena1 extends Phaser.Scene {
         this.puntaje += 1; // Incrementar el puntaje a medida que la nave avanza
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
 
-        if (this.puntaje >= 1000) { //puntaje para que pase a la siguiente escena
+        if (this.puntaje >= 100) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
 
             let sonido = this.sound.add('sonido');  //añadir la música
