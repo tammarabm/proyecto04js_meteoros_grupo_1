@@ -116,9 +116,9 @@ class Escena1 extends Phaser.Scene {
             this.jugador.anims.play('izquierda', true);
 
         } else if (this.cursors.right.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('d'))) {
-          
             this.jugador.setVelocityX(300); // Mover a la derecha
             this.jugador.anims.play('derecha', true);
+            
         } else {
             this.jugador.anims.play('idle', true);
         }
