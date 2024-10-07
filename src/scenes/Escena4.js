@@ -138,6 +138,9 @@ class Escena4 extends Phaser.Scene {
 
         this.puntaje += 1;
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
+        if (this.puntaje >= 7000) { //puntaje para que pase a la siguiente escena
+            this.scene.start('Victory');
+        }
     }
     /** Metodo Game Over para mostrar la pantalla final en caso de perder */
     gameOver(jugador) {
