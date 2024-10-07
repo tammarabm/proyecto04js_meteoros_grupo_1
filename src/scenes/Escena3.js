@@ -129,7 +129,7 @@ class Escena3 extends Phaser.Scene {
         this.puntaje += 1;
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
 
-        if (this.puntaje >= 2000) { //puntaje para que pase a la siguiente escena
+        if (this.puntaje >= 4000) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
             let sonido = this.sound.add('sonido');  //añadir la música
              // Reproducir la música en loop
@@ -153,4 +153,6 @@ class Escena3 extends Phaser.Scene {
 
     }
 
-} export default Escena3;
+} 
+
+export default Escena3;

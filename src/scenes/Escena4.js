@@ -150,4 +150,6 @@ class Escena4 extends Phaser.Scene {
         this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo });
         //Escena GameOver y mostrar puntaje
     }
-} export default Escena4;
+} 
+
+export default Escena4;

@@ -126,14 +126,14 @@ class Escena2 extends Phaser.Scene {
         this.puntaje += 1;
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
 
-        if (this.puntaje >= 1500) { //puntaje para que pase a la siguiente escena
+        if (this.puntaje >= 2000) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
 
             let sonido = this.sound.add('sonido');  //añadir el efecto de sonido
             sonido.play({
             volume: 0.5 
             });
-            this.scene.start('Escena3', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });
+            this.scene.start('Bonustrack', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });
             // Cambiar a la siguiente escena y pasa el puntaje
         }
     }
@@ -150,4 +150,6 @@ class Escena2 extends Phaser.Scene {
 
     }
 
-} export default Escena2;
+} 
+
+export default Escena2;

@@ -161,4 +161,6 @@ class Escena1 extends Phaser.Scene {
          //Escena GameOver y mostrar puntaje
     }
 
-} export default Escena1;
+} 
+
+export default Escena1;
