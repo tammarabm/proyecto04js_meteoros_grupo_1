@@ -101,10 +101,8 @@ class Escena4 extends Phaser.Scene {
     generarBalas(){
         if(this.time.now>this.bulletTime){
             const bullet= this.grupoBalas.create(this.jugador.x+70, this.jugador.y, 'bullet');
-            if(bullet){
-                bullet.setVelocityX(400);
-                this.bulletTime=this.time.now+200;
-            }
+            bullet.setVelocityX(400);
+            this.bulletTime=this.time.now+200;
         }
     }
     generarNaves() {
