@@ -4,17 +4,19 @@ class Escena4 extends Phaser.Scene {
         super("Escena4");
         this.jugador = null;
         this.grupoNaves = null;
+        this.grupoBalas=null;
         this.cursors = null;
         this.puntaje = 0;
         this.puntajeMaximo = 0;
         this.textoPuntaje = 0;
+        this.bulletTime=0;
     }
     /** Metodo para generar naves alrededor del nivel */
     generarNaves() {
-        const y = Phaser.Math.Between(50, 550); //posicion aleatoria en el eje x
+        const y = Phaser.Math.Between(50, 550); //posicion aleatoria en el eje y
         const naveEnemy = this.grupoNaves.create(1480, y, 'naveEnemiga'); //Crear una nave
         naveEnemy.play('enemy_atack');
-        naveEnemy.setVelocityX(-120); //Velocidad vertical hacia abajo
+        naveEnemy.setVelocityX(-120); //Velocidad en el eje x
     }
     /** Metodo para guardar tanto el puntaje como la posicion del jugador */
     init(data) {
@@ -27,6 +29,8 @@ class Escena4 extends Phaser.Scene {
         this.load.image('background', '/public/resources/img/background2.jpg'); //Fondo del juego
         this.load.spritesheet('supernave', '/public/resources/img/supernave3.png', { frameWidth: 106.5, frameHeight: 44.5 });
         this.load.spritesheet('naveEnemiga', '/public/resources/img/enemy3.png', { frameWidth: 90, frameHeight: 49 });
+        this.load.image('bullet', '/public/resources/img/laserBullet.png');
+        this.load.audio('laserSound', '/public/resources/sounds/laserSound.mp3');
     }
     /** Creacion de objetos en el juego */
     create() {
@@ -62,6 +66,18 @@ class Escena4 extends Phaser.Scene {
             repeat: -1
         })
 
+        //DISPARAR 
+        this.input.on('pointerdown', (pointer) => {
+            if (pointer.leftButtonDown()) {
+                let sonido = this.sound.add('laserSound');  //añadir el efecto de sonido
+                sonido.play({
+                volume: 0.4 
+                });
+                this.generarBalas();
+            }
+        });
+        this.grupoBalas=this.physics.add.group();
+        
         this.jugador.setCollideWorldBounds(true); //Evita que salga de la pantalla
 
         this.grupoNaves = this.physics.add.group(); //Creando el grupo de naves
@@ -69,8 +85,9 @@ class Escena4 extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();//Controles
 
-        this.physics.add.collider(this.jugador, this.grupoNaves, this.gameOver, null, this);//Colisiones
-
+        //Colisiones
+        this.physics.add.collider(this.jugador, this.grupoNaves, this.gameOver, null, this);
+        this.physics.add.collider(this.grupoBalas, this.grupoNaves, this.destruirNave, null, this);
         // Muestra un mensaje
         this.mensaje = this.add.text(663, 150, 'Nivel 4', { fontSize: '32px', fill: '#fff' }).setOrigin(0.5);
         // Eliminar el mensaje después de 2 segundos
@@ -80,6 +97,27 @@ class Escena4 extends Phaser.Scene {
 
         this.textoPuntaje = this.add.text(18, 18, 'Puntaje: 0', { fontSize: '32px', fill: '#fff' });
     }
+
+    generarBalas(){
+        if(this.time.now>this.bulletTime){
+            const bullet= this.grupoBalas.create(this.jugador.x+70, this.jugador.y, 'bullet');
+            if(bullet){
+                bullet.setVelocityX(400);
+                this.bulletTime=this.time.now+200;
+            }
+        }
+    }
+    generarNaves() {
+        const y = Phaser.Math.Between(50, 550); //posicion aleatoria en el eje y
+        const naveEnemy = this.grupoNaves.create(1480, y, 'naveEnemiga'); //Crear una nave
+        naveEnemy.play('enemy_atack');
+        naveEnemy.setVelocityX(-120); //Velocidad en el eje x
+    }
+    destruirNave(bala, nave) {
+        bala.destroy(); 
+        nave.destroy(); 
+    }
+
     /** Actualizacion del juego */
     update() {
         this.background.tilePositionX += 2; //Ajusta la velocidad de desplazamiento del fondo

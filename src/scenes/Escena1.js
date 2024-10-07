@@ -116,9 +116,9 @@ class Escena1 extends Phaser.Scene {
             this.jugador.anims.play('izquierda', true);
 
         } else if (this.cursors.right.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('d'))) {
-          
             this.jugador.setVelocityX(300); // Mover a la derecha
             this.jugador.anims.play('derecha', true);
+
         } else {
             this.jugador.anims.play('idle', true);
         }
@@ -132,15 +132,14 @@ class Escena1 extends Phaser.Scene {
         this.puntaje += 1; // Incrementar el puntaje a medida que la nave avanza
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
 
-        if (this.puntaje >= 100) { //puntaje para que pase a la siguiente escena
+        if (this.puntaje >= 1000) { //puntaje para que pase a la siguiente escena
             const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
 
-            let sonido = this.sound.add('sonido');  //añadir la música
-             // Reproducir la música en loop
+            let sonido = this.sound.add('sonido');  //añadir el efecto de sonido 
             sonido.play({
             volume: 0.5 
             });
-            this.scene.start('Escena4', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });// Cambiar a la siguiente escena y pasa el puntaje
+            this.scene.start('Escena2', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });// Cambiar a la siguiente escena y pasa el puntaje
         }
     }
     /** Metodo para la generacion de meteoritos */
