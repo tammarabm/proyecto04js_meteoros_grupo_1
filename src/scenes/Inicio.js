@@ -28,6 +28,9 @@ class Inicio extends Phaser.Scene {
             this.scene.start('Escena1');
         });
     }
+    update(){
+        this.background.tilePositionY -= 2; // Ajusta la velocidad de desplazamiento del fondo
+    }
 
     blink() {
         //Alterna la visibilidad de la imagen
