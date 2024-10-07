@@ -16,5 +16,5 @@ app.use('/node_modules', express.static(__dirname + "/node_modules"));
 
 //listening
 app.listen(5000, () => {
-    console.log("Servidor Node corriendo perfectamente");
+    console.log("Servidor Node corriendo perfectamente http://localhost:5000");
 });
