@@ -71,7 +71,7 @@ class Escena4 extends Phaser.Scene {
             if (pointer.leftButtonDown()) {
                 let sonido = this.sound.add('laserSound');  //añadir el efecto de sonido
                 sonido.play({
-                volume: 0.5 
+                volume: 0.4 
                 });
                 this.generarBalas();
             }
@@ -102,7 +102,7 @@ class Escena4 extends Phaser.Scene {
         if(this.time.now>this.bulletTime){
             const bullet= this.grupoBalas.create(this.jugador.x+70, this.jugador.y, 'bullet');
             if(bullet){
-                bullet.setVelocityX(300);
+                bullet.setVelocityX(400);
                 this.bulletTime=this.time.now+200;
             }
         }
