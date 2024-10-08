@@ -71,7 +71,7 @@ class Escena4 extends Phaser.Scene {
             if (pointer.leftButtonDown()) {
                 let sonido = this.sound.add('laserSound');  //añadir el efecto de sonido
                 sonido.play({
-                volume: 0.4 
+                volume: 0.2 
                 });
                 this.generarBalas();
             }
