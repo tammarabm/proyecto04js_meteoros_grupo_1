@@ -24,18 +24,6 @@ class Inicio extends Phaser.Scene {
 
         this.add.text(663, 500, 'ESPACIO para continuar', { fontSize: '17px', fill: '#fff' }).setOrigin(0.5);
 
-        // Muestra el Top 5 de jugadores (nombre y puntaje)
-        const topPlayers = [
-            { name: 'Player1', score: 1500 },
-            { name: 'Player2', score: 1200 },
-            { name: 'Player3', score: 1000 },
-            { name: 'Player4', score: 800 },
-            { name: 'Player5', score: 600 }
-        ];
-
-        this.showTopPlayers(topPlayers);
-
-
         this.input.keyboard.once('keydown-SPACE', () => {
             this.scene.start('Escena1');
         });
@@ -45,15 +33,6 @@ class Inicio extends Phaser.Scene {
         //Alterna la visibilidad de la imagen
         this.pressStart.visible = !this.pressStart.visible;
     }
-
-    showTopPlayers(players) {
-        // Muestra el Top 5 en pantalla
-        this.add.text(50, 50, 'Top 5 Players:', { fontSize: '20px', fill: '#fff' });
-        players.forEach((player, index) => {
-            this.add.text(50, 80 + index * 30, `${index + 1}. ${player.name}: ${player.score}`, { fontSize: '18px', fill: '#fff' });
-        });
-    }
-
 }
 
 export default Inicio; 
