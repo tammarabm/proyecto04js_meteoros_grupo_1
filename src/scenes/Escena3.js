@@ -13,6 +13,8 @@ class Escena3 extends Phaser.Scene {
         this.load.image('background', '/public/resources/img/background2.jpg');// añado el fondo
         this.load.spritesheet('meteoro', '/public/resources/img/meteoro2.png', { frameWidth: 40, frameHeight: 55.5 });
         this.load.spritesheet('supernave', '/public/resources/img/supernave.png', { frameWidth: 90, frameHeight: 215 });//width192 & height144
+        this.load.audio('sonido','/public/resources/sounds/sonido.mp3');
+
     }
 
     init(data) {
@@ -23,8 +25,7 @@ class Escena3 extends Phaser.Scene {
 
     create() {
         this.background = this.add.tileSprite(663, 298, 1326, 596, 'background'); // creo el fondo con tilesprite para que funcion el desplazamiento 
-        this.jugador = this.physics.add.sprite(this.posicionNave.x, this.posicionNave.y, 'supernave'); // Usar posición pasada
-
+        this.jugador = this.physics.add.sprite(this.posicionNave.x, this.posicionNave.y, 'supernave'); // Usar posición pasada 
         //AnimAcion Spritesheet
         this.anims.create({
             key: 'idle',
@@ -51,12 +52,9 @@ class Escena3 extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         })
-
         this.jugador.setCollideWorldBounds(true); //Evita que salga de la pantalla
-
         this.grupoMeteoros = this.physics.add.group(); //Creando el grupo de meteoros
         this.time.addEvent({ delay: 500, callback: this.generarMeteoros, callbackScope: this, loop: true });
-
         this.grupoMeteoros2 = this.physics.add.group(); //Creando el grupo de meteoros2
         this.time.addEvent({ delay: 500, callback: this.generarMeteoros2, callbackScope: this, loop: true });
 
@@ -131,6 +129,16 @@ class Escena3 extends Phaser.Scene {
         this.puntaje += 1;
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
 
+        if (this.puntaje >= 4000) { //puntaje para que pase a la siguiente escena
+            const posicionNave = { x: this.jugador.x, y: this.jugador.y }; // Guarda posición
+            let sonido = this.sound.add('sonido');  //añadir la música
+             // Reproducir la música en loop
+            sonido.play({
+            volume: 0.5 
+            });
+            this.scene.start('Escena4', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });
+        }
+
     }
 
     gameOver(jugador) {
@@ -145,4 +153,6 @@ class Escena3 extends Phaser.Scene {
 
     }
 
-} export default Escena3;
+} 
+
+export default Escena3;
