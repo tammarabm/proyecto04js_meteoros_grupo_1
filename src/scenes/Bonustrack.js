@@ -7,24 +7,28 @@ class Bonustrack extends Phaser.Scene {
         this.puntaje = 0;
         this.puntajeMaximo = 0;
         this.textoPuntaje = 0;
+        this.nombreJugador =0;
     }
     /** Carga de Recursos */
     preload() {
         this.load.image('background', '/public/resources/img/background2.jpg');
         this.load.spritesheet('estrella', '/public/resources/img/estrella.png', { frameWidth: 130, frameHeight: 132 });
         this.load.spritesheet('supernave', '/public/resources/img/supernave2.png', { frameWidth: 45, frameHeight: 107.5 });
+        this.load.audio('bonus','public/resources/sounds/pickupSound.wav');
     }
 
     init(data) {
         this.puntaje = data.puntaje; //Recibe el puntaje
         this.puntajeMaximo = data.puntajeMaximo || 0;
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
+        this.nombreJugador = data.nombreJugador; //Obtener nombre jugador
     }
 
     /** Creacion de objetos en el juego */
     create() {
         this.background = this.add.tileSprite(663, 298, 1326, 596, 'background');
         this.jugador = this.physics.add.sprite(this.posicionNave.x, this.posicionNave.y, 'supernave');
+        this.add.text(1050, 18, this.nombreJugador, { fontSize: '32px', fill: '#fff' });
 
         //Animacion Nave
         this.anims.create({
@@ -105,7 +109,7 @@ class Bonustrack extends Phaser.Scene {
             sonido.play({ //Reproducir la música en loop
                 volume: 0.5
             });
-            this.scene.start('Escena3', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });
+            this.scene.start('Escena3', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave,nombreJugador:this.nombreJugador });
         }
     }
     /** Metodo para la generacion de meteoritos */
@@ -119,6 +123,9 @@ class Bonustrack extends Phaser.Scene {
 
     ganarPuntos(jugador, estrella) {
         estrella.destroy();
+
+        // Reproducir sonido al colisionar con la estrella
+        this.sound.play('bonus');
     
         const incrementoPuntaje = 50;
         this.puntaje += incrementoPuntaje; //Aumenta el puntaje total

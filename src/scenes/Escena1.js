@@ -9,6 +9,7 @@ class Escena1 extends Phaser.Scene {
         this.puntajeMaximo=0;
         this.textoPuntaje = 0;
         this.cantidad = 300;    // Tiempo de generación inicial (milisegundos)
+        this.nombreJugador = 0;
     }
     /** Carga de Recursos */
     preload() {
@@ -21,6 +22,7 @@ class Escena1 extends Phaser.Scene {
 
     init(data) {
         this.puntajeMaximo = data.puntajeMaximo || 0; // Si viene de otra escena, usa ese puntaje
+        this.nombreJugador = this.registry.get('nombreJugador');
     }
 
     /** Creacion de objetos en el juego */
@@ -34,6 +36,8 @@ class Escena1 extends Phaser.Scene {
         loop: true,
         volume: 0.5 
     });
+
+    this.add.text(1050, 18, this.nombreJugador, { fontSize: '32px', fill: '#fff' });
 
         //AnimAcion Spritesheet
         this.anims.create({
@@ -139,7 +143,7 @@ class Escena1 extends Phaser.Scene {
             sonido.play({
             volume: 0.5 
             });
-            this.scene.start('Escena2', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });// Cambiar a la siguiente escena y pasa el puntaje
+            this.scene.start('Escena2', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave, nombreJugador : this.nombreJugador });// Cambiar a la siguiente escena y pasa el puntaje
         }
     }
     /** Metodo para la generacion de meteoritos */
@@ -157,7 +161,7 @@ class Escena1 extends Phaser.Scene {
         if (this.puntaje > this.puntajeMaximo) {
             this.puntajeMaximo = this.puntaje;
         }
-        this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo});
+        this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, nombreJugador : this.nombreJugador});
          //Escena GameOver y mostrar puntaje
     }
 

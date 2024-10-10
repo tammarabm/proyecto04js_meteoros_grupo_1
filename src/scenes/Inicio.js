@@ -22,21 +22,18 @@ class Inicio extends Phaser.Scene {
             loop: true //Hacer que parpadee en bucle
         });
 
-        this.add.text(663, 500, 'ESPACIO para continuar', { fontSize: '17px', fill: '#fff' }).setOrigin(0.5);
+        const startButton = document.getElementById('botonStart');
+        startButton.addEventListener('click', () => {
+            const nombreJugador = document.getElementById('nombreJugador').value.trim();
+            if (nombreJugador === "") {
+                alert("Ingrese un nombre");
+            }else{
+            this.registry.set('nombreJugador', nombreJugador); 
+            document.getElementById('nombreForm').style.display = 'none'; 
+            this.scene.start('Escena1'); 
+            }
 
-         // Muestra el Top 5 de jugadores (nombre y puntaje)
-         const topPlayers = [
-            { name: 'Player1', score: 1500 },
-            { name: 'Player2', score: 1200 },
-            { name: 'Player3', score: 1000 },
-            { name: 'Player4', score: 800 },
-            { name: 'Player5', score: 600 }
-        ];
-
-        this.showTopPlayers(topPlayers);
-
-        this.input.keyboard.once('keydown-SPACE', () => {
-            this.scene.start('Escena1');
+        
         });
     }
     update(){

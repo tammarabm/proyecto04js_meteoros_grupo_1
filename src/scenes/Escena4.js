@@ -10,6 +10,7 @@ class Escena4 extends Phaser.Scene {
         this.puntajeMaximo = 0;
         this.textoPuntaje = 0;
         this.bulletTime=0;
+        this.nombreJugador=0;
     }
     /** Metodo para generar naves alrededor del nivel */
     generarNaves() {
@@ -23,6 +24,7 @@ class Escena4 extends Phaser.Scene {
         this.puntaje = data.puntaje; //Recibe el puntaje
         this.puntajeMaximo = data.puntajeMaximo || 0;
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
+        this.nombreJugador = data.nombreJugador; // Obtener nombre jugador
     }
     /** Carga de Recursos */
     preload() {
@@ -31,12 +33,13 @@ class Escena4 extends Phaser.Scene {
         this.load.spritesheet('naveEnemiga', '/public/resources/img/enemy3.png', { frameWidth: 90, frameHeight: 49 });
         this.load.image('bullet', '/public/resources/img/laserBullet.png');
         this.load.audio('laserSound', '/public/resources/sounds/laserSound.mp3');
+        this.load.audio('shipExplosion', '/public/resources/sounds/shipExplosion.wav');
     }
     /** Creacion de objetos en el juego */
     create() {
         this.background = this.add.tileSprite(663, 298, 1326, 596, 'background'); // creo el fondo con tilesprite para que funcion el desplazamiento 
         this.jugador = this.physics.add.sprite(this.posicionNave.x, this.posicionNave.y, 'supernave');
-
+        this.add.text(1050, 18, this.nombreJugador, { fontSize: '32px', fill: '#fff' });
         this.jugador.angle = 90; //Rotar al jugador para que este en posición horizontal
 
         //Animacion Supernave
@@ -112,6 +115,8 @@ class Escena4 extends Phaser.Scene {
         naveEnemy.setVelocityX(-120); //Velocidad en el eje x
     }
     destruirNave(bala, nave) {
+        this.sound.play('shipExplosion');
+
         bala.destroy(); 
         nave.destroy(); 
     }
@@ -150,7 +155,7 @@ class Escena4 extends Phaser.Scene {
         if (this.puntaje > this.puntajeMaximo) {
             this.puntajeMaximo = this.puntaje;
         }
-        this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo });
+        this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo,nombreJugador:this.nombreJugador });
         //Escena GameOver y mostrar puntaje
     }
 } 

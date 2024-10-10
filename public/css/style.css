@@ -1,0 +1,32 @@
+#nombreForm {
+    display: flex;
+    align-items: center; 
+    height: 30px; 
+    position: absolute;
+    top: 70%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+#nombreJugador {
+    height: 100%; 
+    font-size: 16px; 
+}
+#botonStart {
+    background-color: #4c74af; 
+    color: white; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    border: none; 
+    border-radius:6px; 
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+    }
+#botonStart:hover {
+    background-color: #476ca3; 
+    transform: scale(1.02); 
+}
+#botonStart:active {
+    background-color: #416396; 
+    transform: scale(0.98); 
+}
