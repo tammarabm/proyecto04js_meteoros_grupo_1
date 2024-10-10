@@ -8,6 +8,7 @@ class Escena2 extends Phaser.Scene {
         this.puntaje = 0;
         this.puntajeMaximo=0;
         this.textoPuntaje = 0;
+        this.nombreJugador = 0;
     }
     preload() { //Carga de recursos
         this.load.image('background', '/public/resources/img/background2.jpg');// añado el fondo
@@ -21,12 +22,13 @@ class Escena2 extends Phaser.Scene {
         this.puntaje = data.puntaje; //Recibe el puntaje
         this.puntajeMaximo= data.puntajeMaximo || 0;
         this.posicionNave = data.posicionNave; // Obtener posición de la nave
+        this.nombreJugador = data.nombreJugador; // Obtener nombre del jugador
     }
 
     create() {
         this.background = this.add.tileSprite(663, 298, 1326, 596, 'background'); // creo el fondo con tilesprite para que funcion el desplazamiento
         this.jugador = this.physics.add.sprite(this.posicionNave.x, this.posicionNave.y, 'supernave'); // Usa la posición anterior
-        
+        this.add.text(1050, 18, this.nombreJugador, { fontSize: '32px', fill: '#fff' });
 
         //AnimAcion Spritesheet
         this.anims.create({
@@ -133,7 +135,7 @@ class Escena2 extends Phaser.Scene {
             sonido.play({
             volume: 0.5 
             });
-            this.scene.start('Bonustrack', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave });
+            this.scene.start('Bonustrack', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, posicionNave, nombreJugador : this.nombreJugador });
             // Cambiar a la siguiente escena y pasa el puntaje
         }
     }
@@ -145,7 +147,7 @@ class Escena2 extends Phaser.Scene {
         if (this.puntaje > this.puntajeMaximo) {
             this.puntajeMaximo = this.puntaje;
         }
-        this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo});
+        this.scene.start('GameOver', { puntaje: this.puntaje, puntajeMaximo: this.puntajeMaximo, nombreJugador : this.nombreJugador});
          //Escena GameOver y mostrar puntaje
 
     }
