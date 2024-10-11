@@ -21,7 +21,7 @@ class Inicio extends Phaser.Scene {
             callbackScope: this,
             loop: true //Hacer que parpadee en bucle
         });
-
+        
         const startButton = document.getElementById('botonStart');
         startButton.addEventListener('click', () => {
             const nombreJugador = document.getElementById('nombreJugador').value.trim();
@@ -38,14 +38,6 @@ class Inicio extends Phaser.Scene {
     }
     update(){
         this.background.tilePositionY -= 2; // Ajusta la velocidad de desplazamiento del fondo
-    }
-
-    showTopPlayers(players) {
-        // Muestra el Top 5 en pantalla
-        this.add.text(50, 50, 'Top 5 Players:', { fontSize: '20px', fill: '#fff' });
-        players.forEach((player, index) => {
-            this.add.text(50, 80 + index * 30, `${index + 1}. ${player.name}: ${player.score}`, { fontSize: '18px', fill: '#fff' });
-        });
     }
 
     blink() {
