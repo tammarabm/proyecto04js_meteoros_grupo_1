@@ -1,4 +1,5 @@
 //Escena Horizontal
+/* ----Proyecto 05---- */
 class Escena4 extends Phaser.Scene {
     constructor() {
         super("Escena4");

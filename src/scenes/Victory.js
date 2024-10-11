@@ -1,3 +1,4 @@
+/*----Proyecto 05---- */
 class Victory extends Phaser.Scene {
     constructor() {
         super("Victory"); 
