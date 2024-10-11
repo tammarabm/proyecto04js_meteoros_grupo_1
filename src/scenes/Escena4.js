@@ -1,4 +1,5 @@
 //Escena Horizontal
+/* ----Proyecto 05---- */
 class Escena4 extends Phaser.Scene {
     constructor() {
         super("Escena4");
@@ -126,25 +127,27 @@ class Escena4 extends Phaser.Scene {
         this.background.tilePositionX += 2; //Ajusta la velocidad de desplazamiento del fondo
         this.jugador.setVelocityX(0); //Detiene la nave de manera Horizontal
         this.jugador.setVelocityY(0); //Detiene la nave de manera Vertical
-
-        if (this.cursors.up.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('w'))) {
-            this.jugador.setVelocityY(-300); //Mover hacia arriba
-            this.jugador.anims.play('izquierda', true)
-        } else if (this.cursors.down.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('s'))) {
-            this.jugador.setVelocityY(300); //Mover hacia abajo
-            this.jugador.anims.play('derecha', true);
-        } else if (this.cursors.left.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('a'))) {
+        
+        if (this.cursors.left.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('a'))) {
             this.jugador.setVelocityX(-300); //Mover a la izquierda
+            this.jugador.anims.play('izquierda', true);
         } else if (this.cursors.right.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('d'))) {
             this.jugador.setVelocityX(300); //Mover a la derecha
+            this.jugador.anims.play('derecha', true);
         } else {
             this.jugador.anims.play('idle', true);
         }
 
+        if (this.cursors.up.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('w'))) {
+            this.jugador.setVelocityY(-300); // Mover hacia arriba
+        } else if (this.cursors.down.isDown || this.input.keyboard.checkDown(this.input.keyboard.addKey('s'))) {
+            this.jugador.setVelocityY(300); // Mover hacia abajo
+        }
+        
         this.puntaje += 1;
         this.textoPuntaje.setText('Puntaje: ' + this.puntaje);
         if (this.puntaje >= 7000) { //puntaje para que pase a la siguiente escena
-            this.scene.start('Victory');
+            this.scene.start('Victory', {puntaje:this.puntaje, nombreJugador:this.nombreJugador});
         }
     }
     /** Metodo Game Over para mostrar la pantalla final en caso de perder */
