@@ -233,7 +233,7 @@ class Jefe extends Phaser.Scene {
         console.log('Vidas del enemigo:', this.vidasEnemigo); // Mostrar vidas del enemigo
         if (this.vidasEnemigo <= 0) {
             console.log('El ENEMIGO ha sido destruido'); // Mensaje en la consola
-            this.scene.start('Victory');
+            this.scene.start('Victory', {nombreJugador:this.nombreJugador, puntaje:this.puntaje});
             }
     }
     
