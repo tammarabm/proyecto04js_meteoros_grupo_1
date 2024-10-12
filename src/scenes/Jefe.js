@@ -25,8 +25,8 @@ class Jefe extends Phaser.Scene {
     preload() {
         this.load.image('background', '/public/resources/img/background2.jpg'); // Fondo del juego
         this.load.spritesheet('supernave', '/public/resources/img/supernave2.png', { frameWidth: 45, frameHeight: 107.5 });//width192 & height144 NaveJugador
-        this.load.spritesheet('naveEnemiga', '/public/resources/img/supernave2-enemiga.png', { frameWidth: 45, frameHeight: 107.5 });//width192 & height144 NaveEnemiga
-        this.load.image('bullet', '/public/resources/img/laserBullet-arriba.png');// Bala jugador
+        this.load.spritesheet('naveJefe', '/public/resources/img/supernave2-enemiga.png', { frameWidth: 45, frameHeight: 107.5 });//width192 & height144 NaveEnemiga
+        this.load.image('balaJugador', '/public/resources/img/laserBullet-arriba.png');// Bala jugador
         this.load.image('bullet-enemiga', '/public/resources/img/laserBullet-enemiga-abajo.png'); // Bala enemiga
         this.load.audio('laserSound', '/public/resources/sounds/laserSound.mp3');
     }
@@ -48,7 +48,7 @@ class Jefe extends Phaser.Scene {
         this.add.text(1050, 18, this.nombreJugador, { fontSize: '32px', fill: '#fff' }); //Nombre del Jugador en la parte derecha superior
         
        // Crear el enemigo
-        this.enemigo = this.physics.add.sprite(663, 50, 'naveEnemiga');
+        this.enemigo = this.physics.add.sprite(663, 50, 'naveJefe');
         this.enemigo.setCollideWorldBounds(true);
         this.vidasEnemigo = 10; // Crea al enemigo con 10 de vida cuando inicia el escenario
         this.maxVidasEnemigo = 10;
@@ -150,7 +150,7 @@ class Jefe extends Phaser.Scene {
             const puntaY = this.jugador.y + Math.sin(angle) * offset;
     
             // Crear la bala en la punta de la nave
-            const bullet = this.grupoBalas.create(puntaX, puntaY, 'bullet');
+            const bullet = this.grupoBalas.create(puntaX, puntaY, 'balaJugador');
     
             // Establecer la velocidad de la bala hacia la dirección en la que apunta el jugador
             const velocidad = 400; // Velocidad de la bala
